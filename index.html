@@ -87,8 +87,27 @@
       <div class="slides"><section  data-markdown><script type="text/template">
 
 ## intro to
-# **CSS**</script></section><section ><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate="true" -->
+# **CSS**</script></section><section  data-markdown><script type="text/template">
+This course assumes that you <strong>know at least a little HTML</strong>,  
+and you have <strong>little or no knowledge of CSS</strong>.
+
+Please tell me if that's not the case  
+so I can adjust or fill the gaps during the session.
+</script></section><section  data-markdown><script type="text/template">### Quick overview
+- What is CSS? Where do we write it?
+- Anatomy of a CSS rule
+- Debugging CSS
+- CSS stylesheets, CSS Reset
+- Custom Properties
+- We'll work with: 
+	- Images
+	- Layout
+	- Color
+	- Typography
+- Hint at what the Cascade is
+- Teasing, and resources to learn more</script></section><section ><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate="true" -->
 ### what is CSS
+## 💅
 
 **CSS** is a language used to declare **styling rules**  
 for an HTML document (a web page).
@@ -119,19 +138,19 @@ div {
 
 .selected {
 	color: #ffdd42;
-	text-shadow: #001212;
+	text-shadow: 5px 5px #558ABB;
 }
 ```
 </script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate class="minor-h3-title" -->
 ### what is CSS
 #### **Hated** by a lot of programmers
 <!-- .element: style="text-align: left" -->
-- You cannot write "true" logic (declarative, not imperative, just like HTML) <!-- .element: class="fragment" -->
--  Mostly visual feedback (+ inspector) <!-- .element: class="fragment" -->
+- Not considered as a real programming language
+- Mostly visual feedback (+ inspector) <!-- .element: class="fragment" -->
 - Some aspects are hard (class name conflicts, specificity, implicit rules, etc.) <!-- .element: class="fragment" -->
 <br></br>
 
-#### **Loved** by most serious designers
+#### **Loved** by visual people
 <!-- .element: style="text-align: left" class="fragment" -->
 - You can do visual stuff with it ✨ 🌈  <!-- .element: class="fragment" -->
 
@@ -142,11 +161,16 @@ div {
 </div>
 
 
-</script></section></section><section ><section data-markdown><script type="text/template">
-<!-- .slide: data-auto-animate="true" -->
+</script></section></section><section  data-markdown><script type="text/template">
+Let's write some code!
+
+<br></br>
+###### you can start with [this code](https://codesandbox.io/s/prose-css-beginner-course-mfyjps?file=/index.html) to follow along
+###### or write your own stuff
+</script></section><section ><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate="true" -->
 ### **where** to write CSS
 
-It's possible to write CSS in an HTML file using **`<style>`** tags.
+It's possible to write CSS in an HTML file using **\<style\>** tags.
 
 ```html
 <style>
@@ -164,7 +188,7 @@ However... <!-- .element: class="fragment" -->
 <!-- .slide: data-auto-animate  class="minor-h3-title" -->
 ### **where** to write CSS
 
-Most of the time, **.css** files are linked from a **.html** file<!-- .element: ="fragment" -->
+Most of the time, **.css** files are linked in the **\<head\>** of the **.html** file<!-- .element: ="fragment" -->
 
 ```html
 <head>
@@ -178,7 +202,6 @@ because we want **separation of concerns**
 ### separation of concerns
 #### The "classic" way
 <!-- .element: style="opacity: 0.3" -->
-
 
 <split >
 
@@ -234,14 +257,10 @@ window.confirm("Do you really want to close this popup?")
 
 
 </split>
-</script></section></section><section  data-markdown><script type="text/template">
-Let's write some code!
-
-You can either follow along or write your own stuff
-</script></section><section ><section data-markdown><script type="text/template">
-<!-- .slide: data-auto-animate="true" -->
+</script></section></section><section ><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate="true" -->
 ### Anatomy of a CSS **rule**
-###### you can start with [this code](http://TODO)
+## 👁👄👁</script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate class="minor-h3-title" -->
+### Anatomy of a CSS **rule**
 ```css
 selector {
 	property: value;
@@ -278,7 +297,26 @@ select by **id**
 	/* ... */
 }
 ```
+</script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate="true" -->
+#### Selector syntax
+<!-- .element: style="opacity: 0.3" -->
 
+<div class="block">
+
+<!-- .element: style="text-align: left" -->
+select by **tag** and **class**
+```css
+h1.my-class {
+	/* ... */
+}
+```
+</script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate="true" -->
+#### Selector syntax
+<!-- .element: style="opacity: 0.3" -->
+
+<div class="block">
+
+<!-- .element: style="text-align: left" -->
 have a single rule for **several** selectors
 ```css
 .first, .second, #third, div {
@@ -288,7 +326,14 @@ have a single rule for **several** selectors
 .first,
 .second,
 #third,
-div {
+h2 {
+	/* ... */
+}
+```
+
+select if **child** of ..
+```css
+.parent-class .child-class {
 	/* ... */
 }
 ```
@@ -296,16 +341,10 @@ div {
 #### Selector syntax
 <!-- .element: style="opacity: 0.3" -->
 
+##### Combinators
 <div class="block">
 
 <!-- .element: style="text-align: left" -->
-select if **child** of ..
-```css
-.parent-class .child-class {
-	/* ... */
-}
-```
-
 select if **direct child** of ..
 ```css
 .parent-class > .child-class {
@@ -313,16 +352,9 @@ select if **direct child** of ..
 }
 ```
 
-select according to **adjacent** element
+select according to **previous sibling** element
 ```css
 .first + .second {
-	/* ... */
-}
-```
-
-select if **n<sup>th</sup>** element
-```css
-.second:nth-child(3) {
 	/* ... */
 }
 ```
@@ -333,84 +365,461 @@ select if **n<sup>th</sup>** element
 <div class="block">
 
 <!-- .element: style="text-align: left" -->
-select by **attribute**
+select the **parent** element (brand new and super powerful ✨)
 ```css
-.my-class[attribute] {
+.first:has(.second) {
+	/* ... */
+}
+```
+</script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate="true" -->
+#### Selector syntax
+<!-- .element: style="opacity: 0.3" -->
+
+<div class="block">
+
+<!-- .element: style="text-align: left" -->
+select if **n<sup>th</sup>** element
+```css
+div:nth-child(3) {
+	/* ... */
+}
+
+```
+
+select if is an **only child**
+```css
+div:only-child {
 	/* ... */
 }
 ```
 
-select by **attribute value**
+also **`:last-child`**,  
+and similarly **`:nth-of-type()`**, **`:last-of-type`**, **`:only-of-type`**, etc.
+</script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate="true" -->
+#### Selector syntax
+<!-- .element: style="opacity: 0.3" -->
+
+<div class="block">
+
+<!-- .element: style="text-align: left" -->
+select by **attribute** (such as **`<div my-attribute>`** or **`<div my-attribute="foo">`** )
 ```css
-.my-class[attribute="value"] {
+div[my-attribute] {
 	/* ... */
 }
 ```
-</script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate  class="minor-h3-title" -->
-### Anatomy of a CSS **rule**
-#### Properties and values
-</script></section></section><section  data-markdown><script type="text/template">### CSS **Reset**
-Let's add and style a few **`<button>`** elements 
 
-TODO: add a codesandbox/codepen iframe with the **buttons**
+select by **attribute value** (such as **`<div my-attribute="bar">`**)
+```css
+div[my-attribute="bar"] {
+	/* ... */
+}
+```
 
-https://codesandbox.io/s/snowy-grass-kiz73g?file=/index.html
+</script></section></section><section ><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate="true" -->
+### Sizing things
+## 📐📏
+</script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate class="minor-h3-title" -->
+### Sizing things
+<p style="line-height: 0" class="reset-paragraph image-paragraph"><img src="attachments/ezgif-2-05ce111f26.gif" alt="" ></img></p>
 
-<iframe>
-</iframe>
-</script></section><section  data-markdown><script type="text/template">### **C**ascading **S**tyle **S**heets
-#### The cascade
-TODO</script></section><section  data-markdown><script type="text/template"><!-- .slide:  -->
+</script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate class="minor-h3-title" -->
+### Sizing things
+A very simple example of sizing an element:
+```css
+.my-class {
+	width: 75%; /* will take 75 percents of its parent's width */
+}
+```
+</script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate class="minor-h3-title" -->
+### Sizing things
+#### Units
+(relative or absolute)
+- **px** CSS pixels (NOT the device's pixels)
+- **em**, **rem**, **ch** (typography)
+- **%** percents
+- **vm**/**vh** view height/width units
+- and more...
+</script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate class="minor-h3-title" -->
+### Sizing things
+#### The box model
+<p style="line-height: 0" class="reset-paragraph image-paragraph"><img src="attachments/Screenshot 2022-12-06 at 16.48.10.png" alt="" ></img></p>
+
+##### width/height, padding, border, margin
+</script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate class="minor-h3-title" -->
+### Sizing things
+#### The box model
+<p style="line-height: 0" class="reset-paragraph image-paragraph"><img src="attachments/Screenshot 2022-12-06 at 16.48.10.png" alt="" ></img></p>
+
+##### box-sizing
+**content-box** vs **border-box**
+</script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate class="minor-h3-title" -->
+### Sizing things
+#### ...it's complicated
+The elements' sizes are related to the **layout** (cf. dedicated section),   
+and the other elements on the page.
+
+...Sizes can be absolute or relative, values can have a min and a max, the web page document has an infinite height, responsive is a huge topic, zoom level and accessibility, etc...
+
+</script></section></section><section  data-markdown><script type="text/template">
+<!-- .slide: data-auto-animate="true" -->
+### Centering things
+Notoriously **very hard thing** to do in CSS. 😂  
+It used to be, but it's a little **easier now**.
+
+They are different ways to do it.  
+For elements with a given **width**, it can be as simple as:
+```css
+.my-class {
+	 margin-inline: auto;
+	 /* or, similarly: */
+	 margin-left: auto;
+	 margin-right: auto;
+ }
+```
+</script></section><section ><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate="true" -->
+### **Debugging** your CSS
+## 🧐
+</script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate class="minor-h3-title" -->
+### **Debugging** your CSS
+You will get **confused** by CSS.  
+Remember, it can be an opportunity to **learn**! 😄   
+
+Here are a few tips:
+</script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate class="minor-h3-title" -->
+### **Debugging** your CSS
+
+- Work with a **fast feedback loop** (e.g. [REPL](https://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop))
+- <strong>Autocomplete</strong> is your friend
+<br></br>
+
+<div class="block">
+
+<!-- .element: class="fragment" -->
+- => Use **devtools** (in the browser)
+<br></br>
+</div>
+
+ 
+
+<div class="block">
+
+<!-- .element: class="fragment" -->
+- Make the stuff you are debugging **pop up** (e.g. **`border: 2px solid red;`**)
+- Remove noise (keep only the relevant CSS properties)
+<br></br>
+</div>
+
+
+
+<div class="block">
+
+<!-- .element: class="fragment" -->
+#### When lost
+- Try one thing at a time
+- Try to modify parent/sibling elements' properties that could be related
+- Ask a coworker 😂
+</div>
+
+ 
+</script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate class="minor-h3-title" -->
+### **Debugging** your CSS
+
+For example, we can add a rule with selectors to display  
+a **border** around the elements we want to visualize:
+```css
+.container > *:not(ul),
+ul > * {
+	border: 2px solid DeepPink;
+}
+```
+</script></section></section><section ><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate="true" -->
+### CSS Reset
+```html
+	<link rel="stylesheet" href="css/reset.css">
+```
+The **reset.css** stylesheet is some boilerplate code that **removes the browser's default styles** (which are different from browser to browser).
+
+For example it removes the default **list-style** attribute and the **list's padding**/**margin**.
+</script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate class="minor-h3-title" -->
+### CSS Reset
+in the **\<head\>**, we can link various stylesheets:
+```html
+	<link rel="stylesheet" href="css/reset.css">
+	<link rel="stylesheet" href="css/fonts.css">
+	<link rel="stylesheet" href="css/my-styles.css">
+```
+The order is important here.
+</script></section></section><section ><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate="true" -->
+### Images
+## 🖼
+</script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate class="minor-h3-title" -->
+### Images
+You can add images to the web page using **CSS** or **HTML**
+</script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate class="minor-h3-title" -->
+### Images
+CSS
+```css
+.my-class {
+	/* image added for decorative purposes (aesthetic) */
+	background-image: url('path/to/image.png');
+}
+```
+HTML
+```html
+<!-- image which adds meaning to the page (semantic) -->
+<img src="path/to/image.png" alt="description of the image">
+```
+In HTML, use **alt** attribute for accessibility purposes.  
+With an **empty string** in the alt, the browser understands it's a **decorative** image, and the screen-readers will ignore it.
+</script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate class="minor-h3-title" -->
+### Images
+You can tweak how a **background-image** is displayed  
+using **background-[...]** properties.
+```css
+.my-class {
+	background-image: url('path/to/image.png');
+	background-size: cover;
+	background-position: 25% 75%;
+}
+```
+Similarly, there are specific CSS rules for **\<img\>** tags,  
+like **object-fit** or **object-position**, for example.
+```css
+.my-img-element {
+	width: 50px;
+	/* ... */
+	object-fit: cover;
+	object-position: 10% 50%;
+}
+```
+
+</script></section></section><section ><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate="true" -->
 ### Color
-###### you can start with [this code](http://TODO)
-TODO:
-- `color` for text color, `background-color`, etc.
-- changing colors on `hover`
-</script></section><section  data-markdown><script type="text/template"><!-- .slide: class="minor-h3-title" -->
-### Typography
-###### you can start with [this code](http://TODO)
-TODO:
-- different units rapid overview
-	- em vs rem
-	- ch (optimal line width)
-</script></section><section ><section data-markdown><script type="text/template"><!-- .slide: class="minor-h3-title" -->
-### Layout
-###### you can start with [this code](http://TODO)
-#### The **Flow** of the document
-TODO:
-- block vs inline
-- removing elements from the flow (position absolute)
-- transform
+## 🎨</script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate class="minor-h3-title" -->
+### Color
+Most common properties that use color are:
+- **`color`** for text color
+- **`background-color`**
 </script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate class="minor-h3-title" -->
-### Layout
-#### Flex
-</script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate class="minor-h3-title" -->
-### Layout
-#### Grid</script></section></section><section  data-markdown><script type="text/template"><!-- .slide: class="minor-h3-title" -->
-### Responsive
-###### you can start with [this code](http://TODO)
-#### Media queries
-Mobile first vs Desktop first
+### Color
+There are a lot of different ways to write color values:
+- hexadecimal => **`#0033ff`** or **`#03f`** (6 or shorthand 3 digits)
+- RGB (Red, Green, Blue) => **`rgb(0, 51, 255)`**
+- HSL (Hue, Saturation, Lightness) => **`hsl(228, 100%, 50%)`**
+- and [much much more](https://www.smashingmagazine.com/2021/11/guide-modern-css-colors/)
+
 ```css
-@media scren and (min-width: 600px) {
+.green-text {
+	color: #00e300;
+}
+
+.black-text {
+	color: rgb(0, 0, 0);
+}
+
+.red-text-1 {
+	color: rgb(224 31 31);
+}
+
+.red-text-2 {
+	color: hsl(0, 76%, 50%);
+}
+```
+</script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate class="minor-h3-title" -->
+### Color
+You can also put **alpha** (transparency) with a fourth value.
+
+```css
+.green-transparent-text {
+	color: #00e30088;
+}
+
+.black-transparent-text {
+	color: rgb(0, 0, 0, 0.5);
+}
+
+.red-transparent-text-1 {
+	color: rgb(224 31 31 / 50%);
+}
+
+.red-transparent-text-2 {
+	color: hsl(0, 76%, 50%, 0.5);
+}
+```
+</script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate class="minor-. 3-title" -->
+### Color
+If you want to learn more about color in general and why we need so many ways to describe it, here is a very good resource (4 chapters):
+https://programmingdesignsystems.com/color/a-short-history-of-color-theory/index.html#a-short-history-of-color-theory-xZzRFOZ
+</script></section></section><section ><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate="true" -->
+### Typography
+## 🖋
+</script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate class="minor-h3-title" -->
+### Typography
+Example of a few properties:
+```css
+.my-class {
+	font-family: Times, Serif;
+	font-size: 24px;
+	font-weight: bold;
+	letter-spacing: 0.05em;
+	line-height: 1.2em; 
+	text-transform: uppercase;
+	text-align: center;
 	/* ... */
 }
 ```
-</script></section><section  data-markdown><script type="text/template"><!-- .slide: class="minor-h3-title" -->
+</script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate class="minor-h3-title" -->
+### Typography
+**ch** unit == the width of the 0 character for the current font.  
+This is useful for approximating the [optimal line-length for readability](https://practicaltypography.com/line-length.html).
+```css
+.my-column-text {
+	width: 45ch;
+}
+```</script></section></section><section ><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate="true" -->
 ### Custom properties
-###### you can start with [this code](http://TODO)
+## 🧠</script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate class="minor-h3-title" -->
+### Custom properties
+Why ?
+- Variables instead of hard-coded values:
+	- Stay DRY
+	- Add meaning
+	- Easier to debug
+</script></section><section data-markdown><script type="text/template">
 #### Declare a variable
-
+```css
+:root {
+	--global-variable: 12px;
+}
+```
 #### Use it
-</script></section><section  data-markdown><script type="text/template"><!-- .slide: class="minor-h3-title" -->
-### Animation
-#### @keyframes
+```css
+.my-class {
+	width: var(--global-variable);
+}
+```
+</script></section></section><section ><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate="true" -->
+### Layout
+## 🗺</script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate class="minor-h3-title" -->
+### Layout
+In CSS, layout is about **positioning** and **sizing** elements  
+relative to **the page**, **each others**, and **their content**.
 
-... We should have a dedicated course for animation (which I would love to make)
-</script></section><section  data-markdown><script type="text/template">
-##### Here is [the code](http://TODO) to the project with all the steps
-Feel free to reach out if you want to know more
+It's a complex topic and we won't cover all of it.
+</script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate class="minor-h3-title" -->
+### Layout
+#### The **flow** of the document
+A HTML page is a **document**. It's supposed to be read from top to bottom, left to right (or whichever [direction](https://developer.mozilla.org/en-US/docs/Web/CSS/direction) relevant to the language used).
+
+By default elements are **juxtaposed one after another** according to this. You can **manipulate the flow** of a page or **remove elements from the flow** in different ways.
+</script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate class="minor-h3-title" -->
+### Layout
+#### the **display** property
+The **display** property can be **block**, **inline**, **flex**, **grid**, **none**, or some combination of these.
+</script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate class="minor-h3-title" -->
+### Layout
+#### the **display** property
+##### **block**
+<!-- .element: style="position: relative; left: -7ch; top: 3.4ch" -->
+###### vs
+##### **inline**
+<!-- .element: style="position: relative; left: 7ch; top: -3.4ch" -->
+<p style="line-height: 0" class="reset-paragraph image-paragraph"><img src="attachments/Screenshot 2022-11-24 at 11.52.34.png" alt="" ></img></p>
+</script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate class="minor-h3-title" -->
+### Layout
+#### the **display** property
+##### **block**
+A **block** element has margins that take **all of the horizontal space**.  
+By default **`<div>`**, **`<footer>`**, **`<nav>`**, etc. are **display: block**
+
+----
+##### **inline**
+An **inline** element behaves **similarly to a portion of text in a paragraph**.  
+By default **`<span>`**, **`<a>`** (a link), **`<img>`** (an image!!!), etc. are **display: inline**
+</script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate class="minor-h3-title" -->
+### Layout
+#### the **display** property
+##### **flex** 💪
+<!-- .element: style="position: relative; left: -7ch; top: 3.4ch" -->
+###### vs
+##### **grid** 🏢
+<!-- .element: style="position: relative; left: 7ch; top: -3.4ch" -->
+<p style="line-height: 0" class="reset-paragraph image-paragraph"><img src="attachments/Screenshot 2022-11-24 at 14.29.05.png" alt="" ></img></p>
+</script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate class="minor-h3-title" -->
+### Layout
+#### the **display** property
+##### **flex** 💪
+To **organize children elements** with a linear (**1D**) mindset.  
+Interactive guides: [playful (to the point)](https://flexboxfroggy.com/) or [thorough (in depth)](https://www.joshwcomeau.com/css/interactive-guide-to-flexbox/)
+
+----
+##### **grid** 🏢
+To **organize children elements** with a grid (**2D**) mindset.  
+Learn with: [CSS Grid Generator](https://cssgrid-generator.netlify.app/) or [videos](https://www.youtube.com/watch?v=FEnRpy9Xfes&list=PLbSquHt1VCf1x_-1ytlVMT0AMwADlWtc1)
+</script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate class="minor-h3-title" -->
+### Layout
+#### the **position** property
+```css
+.my-class {
+	position: absolute;
+	left: 50%;
+	right: 50%;
+}
+```
+The **position** attribute can be **relative**, **absolute**, **fixed** or **sticky**
+They can (or must) be used with other attributes **top**, **bottom**, **right** and **left**.
+</script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate class="minor-h3-title" -->
+### Layout
+The **transform** attribute  
+helps you **translate**, **scale** and/or **rotate** an element.  
+It is very useful for animation.
+</script></section></section><section ><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate="true" -->
+### Animations & interactions
+## 🎭
+</script></section><section data-markdown><script type="text/template">
+<!-- .slide: data-auto-animate="true" -->
+### Animations & interactions
+## 🎭
+... We would have to make a **dedicated workshop**  
+for animation and/or interaction in CSS (+ JS ?)  
+(**which I would love to make** 😁)
+</script></section></section><section ><section data-markdown><script type="text/template">
+<!-- .slide: data-auto-animate="true" -->
+### <strong>CSS</strong> stands for...
+## 🤓</script></section><section data-markdown><script type="text/template">
+<!-- .slide: data-auto-animate="true" -->
+### **C**ascading **S**tyle **S**heets
+#### The cascade 
+The styling rules are applied with an algorithm called the **Cascade**.  
+You can read about it [here](https://developer.mozilla.org/en-US/docs/Web/CSS/Cascade) if you want to get a headache  
+(it's a pretty advanced topic)
+
+<p style="line-height: 0" class="reset-paragraph image-paragraph"><img src="attachments/layers-tall-outlines2.svg" alt="" style="max-height: 40vh; object-fit: contain"></img></p>
+
+</script></section><section data-markdown><script type="text/template">
+#### What is applied when there are different rules for the same element/property?
+## 👯 🤔
+This is a difficult question,  
+but for most cases it comes down to two things:
+- What **selector** has the most **specificity**
+- and if it's the same, what rule is **declared last**.
+</script></section><section data-markdown><script type="text/template">
+#### What about **`!important`** ?
+## 💩
+Please avoid using this if possible.  
+It can make the code much harder to maintain.
+
+You can try to use **layers** instead ! (brand new CSS feature ✨)
+</script></section></section><section  data-markdown><script type="text/template">### **Thank you**
+## 🙏
+
+##### Here is [the code](https://codesandbox.io/s/prose-css-beginner-course-finished-urxbn6?file=/index.html) to the "completed" project
+Feel free to **reach out** if you want to know more.  
+I would be very happy to have your **feedbacks** on this course.
+
 </script></section><section  data-markdown><script type="text/template">### **Learn more**
+## ✨
 #### Documentation
 <!-- .element: style="text-align: left" -->
 - [MDN CSS reference](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference)
@@ -418,14 +827,12 @@ Feel free to reach out if you want to know more
 
 #### Tutorials & articles
 <!-- .element: style="text-align: left" -->
--   [css-tricks.com](https://css-tricks.com/)
--   [Kevin Powell's Youtube Channel](https://www.youtube.com/kepowob/featured) 
--   [Jen Simmons' Youtube Channel](https://www.youtube.com/c/LayoutLand/videos) + conferences (mostly CSS-grid)
--   [La cascade](https://la-cascade.io/) (🇫🇷)
-
-</script></section><section  data-markdown><script type="text/template">
-TO ADD:
-- Debbuging your CSS (devtools in the browser)</script></section></div>
+-  [css-tricks.com](https://css-tricks.com/)
+-  [web.dev/learn/css](https://web.dev/learn/css)
+-  [Kevin Powell's Youtube Channel](https://www.youtube.com/kepowob/featured) 
+-  [Jen Simmons' Youtube Channel](https://www.youtube.com/c/LayoutLand/videos) + conferences (mostly CSS-grid)
+-  [La cascade](https://la-cascade.io/) 🇫🇷 (English articles translated in French)
+</script></section></div>
     </div>
 
     <script src="dist/reveal.js"></script>
@@ -495,8 +902,18 @@ TO ADD:
 		  RevealCustomControls,
         ],
 
+
+    	allottedTime: 120 * 1000,
+
 		mathjax3: {
 			mathjax: 'plugin/math/mathjax/tex-mml-chtml.js',
+		},
+		markdown: {
+		  gfm: true,
+		  mangle: true,
+		  pedantic: false,
+		  smartLists: false,
+		  smartypants: false,
 		},
 
 		customcontrols: {
